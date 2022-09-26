@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - readme
+      - build
     paths:
       - .github/workflows/ci.yml
 
@@ -82,8 +82,6 @@ jobs:
       matrix:
         BRANCH:
           - edge
-          - current
-          - legacy
 
     steps:
       - name: Import env
@@ -123,23 +121,12 @@ jobs:
       matrix:
         BRANCH:
           - edge
-          - current
-          - legacy
         RELEASE:
-          # - focal # Ubuntu 20.04 LTS
           - jammy # Ubuntu 22.04 LTS
-          # - buster # Debian 10
           - bullseye # Debian 11
           - sid # Debian unstable
         TYPE:
           - minimal
-          - cli
-          - desktop
-        include:
-          - TYPE: desktop
-            DESKTOP_ENVIRONMENT: xfce
-            DESKTOP_ENVIRONMENT_CONFIG_NAME: config_base
-            DESKTOP_APPGROUPS_SELECTED: ""
 
     steps:
       - name: Import env
