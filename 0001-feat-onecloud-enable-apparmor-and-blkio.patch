@@ -1,0 +1,173 @@
+From e2aacf129e37b1f74e269d6190f577d77d2af615 Mon Sep 17 00:00:00 2001
+From: XingwangLiao <kuoruan@gmail.com>
+Date: Sat, 15 Oct 2022 15:32:24 +0800
+Subject: [PATCH] feat(onecloud): enable apparmor and blkio
+
+---
+ config/kernel/linux-meson-current.config | 29 +++++++++++++++++++++---
+ config/kernel/linux-meson-edge.config    | 29 +++++++++++++++++++++---
+ config/kernel/linux-meson-legacy.config  | 29 +++++++++++++++++++++---
+ 3 files changed, 78 insertions(+), 9 deletions(-)
+
+diff --git a/config/kernel/linux-meson-current.config b/config/kernel/linux-meson-current.config
+index 899444254..f45efc615 100644
+--- a/config/kernel/linux-meson-current.config
++++ b/config/kernel/linux-meson-current.config
+@@ -736,7 +736,8 @@ CONFIG_BLK_DEV_BSGLIB=y
+ CONFIG_BLK_DEV_INTEGRITY=y
+ CONFIG_BLK_DEV_INTEGRITY_T10=y
+ # CONFIG_BLK_DEV_ZONED is not set
+-# CONFIG_BLK_DEV_THROTTLING is not set
++CONFIG_BLK_DEV_THROTTLING=y
++# CONFIG_BLK_DEV_THROTTLING_LOW is not set
+ # CONFIG_BLK_WBT is not set
+ # CONFIG_BLK_CGROUP_IOLATENCY is not set
+ # CONFIG_BLK_CGROUP_IOCOST is not set
+@@ -6729,14 +6730,36 @@ CONFIG_KEYS=y
+ # CONFIG_KEY_DH_OPERATIONS is not set
+ # CONFIG_KEY_NOTIFICATIONS is not set
+ # CONFIG_SECURITY_DMESG_RESTRICT is not set
+-# CONFIG_SECURITY is not set
++CONFIG_SECURITY=y
+ CONFIG_SECURITYFS=y
++CONFIG_SECURITY_NETWORK=y
++# CONFIG_SECURITY_NETWORK_XFRM is not set
++CONFIG_SECURITY_PATH=y
+ CONFIG_HAVE_HARDENED_USERCOPY_ALLOCATOR=y
+ # CONFIG_HARDENED_USERCOPY is not set
+ # CONFIG_FORTIFY_SOURCE is not set
+ # CONFIG_STATIC_USERMODEHELPER is not set
++# CONFIG_SECURITY_SELINUX is not set
++# CONFIG_SECURITY_SMACK is not set
++# CONFIG_SECURITY_TOMOYO is not set
++CONFIG_SECURITY_APPARMOR=y
++CONFIG_SECURITY_APPARMOR_HASH=y
++CONFIG_SECURITY_APPARMOR_HASH_DEFAULT=y
++# CONFIG_SECURITY_APPARMOR_DEBUG is not set
++# CONFIG_SECURITY_LOADPIN is not set
++# CONFIG_SECURITY_YAMA is not set
++# CONFIG_SECURITY_SAFESETID is not set
++# CONFIG_SECURITY_LOCKDOWN_LSM is not set
++# CONFIG_SECURITY_LANDLOCK is not set
++CONFIG_INTEGRITY=y
++# CONFIG_INTEGRITY_SIGNATURE is not set
++CONFIG_INTEGRITY_AUDIT=y
++# CONFIG_IMA is not set
++# CONFIG_IMA_SECURE_AND_OR_TRUSTED_BOOT is not set
++# CONFIG_EVM is not set
++# CONFIG_DEFAULT_SECURITY_APPARMOR is not set
+ CONFIG_DEFAULT_SECURITY_DAC=y
+-CONFIG_LSM="landlock,lockdown,yama,loadpin,safesetid,integrity,bpf"
++CONFIG_LSM="landlock,lockdown,yama,loadpin,safesetid,integrity,bpf,apparmor"
+ 
+ #
+ # Kernel hardening options
+diff --git a/config/kernel/linux-meson-edge.config b/config/kernel/linux-meson-edge.config
+index 96649cff3..395bfa76b 100644
+--- a/config/kernel/linux-meson-edge.config
++++ b/config/kernel/linux-meson-edge.config
+@@ -735,7 +735,8 @@ CONFIG_BLK_DEV_BSGLIB=y
+ CONFIG_BLK_DEV_INTEGRITY=y
+ CONFIG_BLK_DEV_INTEGRITY_T10=y
+ # CONFIG_BLK_DEV_ZONED is not set
+-# CONFIG_BLK_DEV_THROTTLING is not set
++CONFIG_BLK_DEV_THROTTLING=y
++# CONFIG_BLK_DEV_THROTTLING_LOW is not set
+ # CONFIG_BLK_WBT is not set
+ # CONFIG_BLK_CGROUP_IOLATENCY is not set
+ # CONFIG_BLK_CGROUP_IOCOST is not set
+@@ -6973,14 +6974,36 @@ CONFIG_KEYS=y
+ # CONFIG_KEY_DH_OPERATIONS is not set
+ # CONFIG_KEY_NOTIFICATIONS is not set
+ # CONFIG_SECURITY_DMESG_RESTRICT is not set
+-# CONFIG_SECURITY is not set
++CONFIG_SECURITY=y
+ CONFIG_SECURITYFS=y
++CONFIG_SECURITY_NETWORK=y
++# CONFIG_SECURITY_NETWORK_XFRM is not set
++CONFIG_SECURITY_PATH=y
+ CONFIG_HAVE_HARDENED_USERCOPY_ALLOCATOR=y
+ # CONFIG_HARDENED_USERCOPY is not set
+ # CONFIG_FORTIFY_SOURCE is not set
+ # CONFIG_STATIC_USERMODEHELPER is not set
++# CONFIG_SECURITY_SELINUX is not set
++# CONFIG_SECURITY_SMACK is not set
++# CONFIG_SECURITY_TOMOYO is not set
++CONFIG_SECURITY_APPARMOR=y
++CONFIG_SECURITY_APPARMOR_HASH=y
++CONFIG_SECURITY_APPARMOR_HASH_DEFAULT=y
++# CONFIG_SECURITY_APPARMOR_DEBUG is not set
++# CONFIG_SECURITY_LOADPIN is not set
++# CONFIG_SECURITY_YAMA is not set
++# CONFIG_SECURITY_SAFESETID is not set
++# CONFIG_SECURITY_LOCKDOWN_LSM is not set
++# CONFIG_SECURITY_LANDLOCK is not set
++CONFIG_INTEGRITY=y
++# CONFIG_INTEGRITY_SIGNATURE is not set
++CONFIG_INTEGRITY_AUDIT=y
++# CONFIG_IMA is not set
++# CONFIG_IMA_SECURE_AND_OR_TRUSTED_BOOT is not set
++# CONFIG_EVM is not set
++# CONFIG_DEFAULT_SECURITY_APPARMOR is not set
+ CONFIG_DEFAULT_SECURITY_DAC=y
+-CONFIG_LSM="landlock,lockdown,yama,loadpin,safesetid,integrity,bpf"
++CONFIG_LSM="landlock,lockdown,yama,loadpin,safesetid,integrity,bpf,apparmor"
+ 
+ #
+ # Kernel hardening options
+diff --git a/config/kernel/linux-meson-legacy.config b/config/kernel/linux-meson-legacy.config
+index 4dc9cd62e..5dbad10fe 100644
+--- a/config/kernel/linux-meson-legacy.config
++++ b/config/kernel/linux-meson-legacy.config
+@@ -765,7 +765,8 @@ CONFIG_BLK_DEV_BSGLIB=y
+ CONFIG_BLK_DEV_INTEGRITY=y
+ CONFIG_BLK_DEV_INTEGRITY_T10=y
+ # CONFIG_BLK_DEV_ZONED is not set
+-# CONFIG_BLK_DEV_THROTTLING is not set
++CONFIG_BLK_DEV_THROTTLING=y
++# CONFIG_BLK_DEV_THROTTLING_LOW is not set
+ CONFIG_BLK_CMDLINE_PARSER=y
+ # CONFIG_BLK_WBT is not set
+ # CONFIG_BLK_CGROUP_IOLATENCY is not set
+@@ -6522,14 +6523,36 @@ CONFIG_KEYS=y
+ # CONFIG_KEY_DH_OPERATIONS is not set
+ # CONFIG_KEY_NOTIFICATIONS is not set
+ # CONFIG_SECURITY_DMESG_RESTRICT is not set
+-# CONFIG_SECURITY is not set
++CONFIG_SECURITY=y
+ CONFIG_SECURITYFS=y
++CONFIG_SECURITY_NETWORK=y
++# CONFIG_SECURITY_NETWORK_XFRM is not set
++CONFIG_SECURITY_PATH=y
+ CONFIG_HAVE_HARDENED_USERCOPY_ALLOCATOR=y
+ # CONFIG_HARDENED_USERCOPY is not set
+ # CONFIG_FORTIFY_SOURCE is not set
+ # CONFIG_STATIC_USERMODEHELPER is not set
++# CONFIG_SECURITY_SELINUX is not set
++# CONFIG_SECURITY_SMACK is not set
++# CONFIG_SECURITY_TOMOYO is not set
++CONFIG_SECURITY_APPARMOR=y
++CONFIG_SECURITY_APPARMOR_HASH=y
++CONFIG_SECURITY_APPARMOR_HASH_DEFAULT=y
++# CONFIG_SECURITY_APPARMOR_DEBUG is not set
++# CONFIG_SECURITY_LOADPIN is not set
++# CONFIG_SECURITY_YAMA is not set
++# CONFIG_SECURITY_SAFESETID is not set
++# CONFIG_SECURITY_LOCKDOWN_LSM is not set
++# CONFIG_SECURITY_LANDLOCK is not set
++CONFIG_INTEGRITY=y
++# CONFIG_INTEGRITY_SIGNATURE is not set
++CONFIG_INTEGRITY_AUDIT=y
++# CONFIG_IMA is not set
++# CONFIG_IMA_SECURE_AND_OR_TRUSTED_BOOT is not set
++# CONFIG_EVM is not set
++# CONFIG_DEFAULT_SECURITY_APPARMOR is not set
+ CONFIG_DEFAULT_SECURITY_DAC=y
+-CONFIG_LSM="landlock,lockdown,yama,loadpin,safesetid,integrity,bpf"
++CONFIG_LSM="landlock,lockdown,yama,loadpin,safesetid,integrity,bpf,apparmor"
+ 
+ #
+ # Kernel hardening options
+-- 
+2.25.1
+
