@@ -146,6 +146,13 @@ jobs:
             patch --batch -p1 -N <"$file"
           done
 
+      - name: "Apply custom patches"
+        run: |
+          curl -L -O "https://github.com/kuoruan/armbian-onecloud/raw/build/0001-feat-onecloud-enable-apparmor-and-blkio.patch"
+          for file in *.patch; do
+            patch --batch -p1 -N <"$file"
+          done
+
       - name: Download debs
         uses: actions/download-artifact@v3
         with:
